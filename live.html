@@ -15,10 +15,9 @@
     <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/css/main.css?v=1">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/assets/js/jwplayer.js"></script>
-    <style>.jwplayer, .chat-width {z-index: 1;}</style>
+    <link rel="stylesheet" href="https://vjs.zencdn.net/8.6.1/video-js.css" />
+    <link rel="stylesheet" href="/assets/css/main.css?v=2">
+    <style>.video-js { width: 100%; height: auto; aspect-ratio: 16/9; }</style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -37,9 +36,9 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">English</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" onclick="setLanguage('en');">English</a></li>
-                <li><a class="dropdown-item" href="#" onclick="setLanguage('de');">Deutsch</a></li>
-                <li><a class="dropdown-item" href="#" onclick="setLanguage('es');">Español</a></li>
+                <li><a class="dropdown-item" href="#" onclick="document.cookie = 'fs_locale=en; expires=Mon, 18 Jan 2038 12:00:00 UTC; path=/';location.reload();">English</a></li>
+                <li><a class="dropdown-item" href="#" onclick="document.cookie = 'fs_locale=de; expires=Mon, 18 Jan 2038 12:00:00 UTC; path=/';location.reload();">Deutsch</a></li>
+                <li><a class="dropdown-item" href="#" onclick="document.cookie = 'fs_locale=es; expires=Mon, 18 Jan 2038 12:00:00 UTC; path=/';location.reload();">Español</a></li>
               </ul>
             </li>
             <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
@@ -56,34 +55,13 @@
     <div style="max-width:1510px;" class="container container-fluid pt-0 text-white" id="container">
       <div class="row">
         <div class="col p-0" id="video-col">
-          <div><video id="player" /></div>
+          <video id="player" class="video-js" controls preload="auto" data-setup='{"fluid": true}'></video>
           <div class="px-2 px-lg-0">
             <div class="d-flex justify-content-between align-items-end mt-3">
               <h3 id="title" class="my-auto">Loading...</h3>
               <span><button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#embed">Embed this stream</button></span>
             </div>
             <p class="mt-2" id="viewersparent"><span id="viewers">1</span> viewers</p>
-          </div>
-        </div>
-        <div class="col-xl-3 chat-width mb-2 mb-lg-0 pe-0" id="chat-col">
-          <div class="card bg-darker rounded-0">
-            <h5 class="card-header d-flex justify-content-between align-items-end">
-              <span>StreamX Chat</span>
-              <span class="my-auto text-muted" style="font-size: small;" id="status">not connected <span class="text-secondary">●</span></span>
-            </h5>
-            <div class="card-body p-0">
-              <div class="message-cont" id="message-cont">
-                <div class="message-list" id="message-list"></div>
-              </div>
-              <div class="tc-message-box">
-                <form class="w-100 message-form" id="message-form">
-                  <div class="input-group">
-                    <textarea type="text" class="tc-message-input col-12 form-control rounded comment-name message-input-item" id="message-input" placeholder="Send a message"></textarea>
-                  </div>
-                  <input style="display:none;" id="send_message" type="submit"></input>
-                </form>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -118,14 +96,31 @@
         </div>
       </div>
     </div>
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+    <script async src="/assets/js/api.js"></script>
+    <script async src="/assets/js/auth.js"></script>
     <script>
       window.onload = function() {
-        var api = new Api(`${window.location.origin}/api`);
+        console.log('Live page loaded');
         const streamId = window.location.pathname.split('/').pop();
+        const player = videojs('player', {
+          controls: true,
+          fluid: true,
+          sources: [{ src: 'https://vecloud.eu/stream/' + streamId, type: 'application/x-mpegURL' }]
+        });
+        var api = new Api(`${window.location.origin}/api`);
         if (streamId) {
-          api.get(`/streams/${streamId}`).then(processStream);
+          api.get(`/streams/${streamId}`).then(data => {
+            console.log('Stream Data:', data);
+            document.getElementById('title').textContent = data.name || 'Stream';
+            document.getElementById('viewers').textContent = data.viewers || 1;
+          }).catch(error => {
+            console.error('Error fetching stream:', error);
+            document.getElementById('title').textContent = 'Stream Unavailable';
+          });
         }
-        connect(streamId);
         const themeToggle = document.getElementById('themeToggle');
         const htmlElement = document.documentElement;
         const currentTheme = localStorage.getItem('theme') || 'dark';
@@ -139,10 +134,6 @@
         });
       };
     </script>
-    <script async src="/assets/js/api.js"></script>
-    <script async src="/assets/js/ppvchat.js"></script>
-    <script async src="/assets/js/auth.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script defer data-domain="your-streamx-site.vercel.app" src="https://p.vidembed.re/js/script.hash.outbound-links.pageview-props.tagged-events.js"></script>
     <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
   </body>
