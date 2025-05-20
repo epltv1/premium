@@ -6,7 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Slovakia vs. Finland',
             poster: 'https://i.imgur.com/tdkq4WT.jpeg',
             tag: 'IIHF 2025',
-            viewers: 123
+            viewers: 123,
+            status: 'Live Now'
+        },
+        {
+            uri_name: 'team-a-vs-team-b',
+            name: 'Team A vs. Team B',
+            poster: 'https://source.unsplash.com/400x225/?football',
+            tag: 'Football',
+            viewers: 456,
+            status: 'Live Now'
         }
     ];
     livecards.innerHTML = mockStreams.map(stream => `
@@ -16,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="p-4">
                     <h5 class="text-lg font-bold">${stream.name}</h5>
                     <p class="text-gray-400">${stream.tag} • ${stream.viewers} viewers</p>
+                    <p class="text-gray-500 text-sm">${stream.status}</p>
                 </div>
             </a>
         </div>
