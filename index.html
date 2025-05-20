@@ -1,142 +1,260 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PPV.WTF - Classic Sports Streaming</title>
-    <meta name="description" content="Watch free PPV boxing, UFC, hockey, and more live and on-demand at PPV.WTF">
-    <meta name="keywords" content="ppv.wtf, free ppv, sports streaming, live sports, football, hockey">
-    <meta property="og:title" content="PPV.WTF - Classic Sports Streaming">
-    <meta property="og:url" content="https://ppv.wtf">
+    <title>StreamX - Free PPV and More</title>
+    <meta name="description" content="StreamX - Free PPV boxing, UFC, Basketball, Football, and more available live and on-demand.">
+    <meta name="keywords" content="streamx, ppv, free ppv, boxing, ufc, basketball, football, stream, online, free">
+    <meta property="og:title" content="StreamX - Free PPV and More" />
+    <meta property="og:url" content="https://your-streamx-site.vercel.app" />
+    <meta property="og:image" content="/assets/img/og-image.jpg">
+    <meta name="twitter:title" content="StreamX - Free PPV and More">
+    <meta name="twitter:description" content="Free PPV boxing and other content available live and on-demand.">
     <meta name="twitter:card" content="summary_large_image">
-    <link href="https://fonts.bunny.net/css?family=kanit:400,700|bebas-neue:400" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/main.css">
-</head>
-<body class="bg-gray-900 text-white">
-    <!-- Navbar (Vertical Sidebar) -->
-    <nav class="fixed top-0 left-0 h-full bg-black bg-opacity-90 w-64 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50" id="sidebar">
-        <div class="flex flex-col h-full p-4">
-            <a href="/" class="mb-8">
-                <img src="/assets/img/ppvwtf.png" alt="PPV.WTF Logo" class="h-12 mx-auto">
-            </a>
-            <div class="flex flex-col space-y-4 text-lg">
-                <a href="/request" class="text-gray-300 hover:text-green-400 transition hover:underline underline-offset-4">Request</a>
-                <a href="/vods" class="text-gray-300 hover:text-green-400 transition hover:underline underline-offset-4">VODs</a>
-                <a href="https://ppv.zone" class="text-gray-300 hover:text-green-400 transition hover:underline underline-offset-4">Mirror</a>
-                <a href="https://discord.gg/5AMPdpckjH" class="text-gray-300 hover:text-green-400 transition hover:underline underline-offset-4">Discord</a>
-                <a href="/ft" class="text-gray-300 hover:text-green-400 transition hover:underline underline-offset-4">Fishtank</a>
-                <a href="/auth/login" class="text-gray-300 hover:text-green-400 transition hover:underline underline-offset-4">Login</a>
-                <a href="/auth/register" class="text-gray-300 hover:text-green-400 transition hover:underline underline-offset-4">Register</a>
-            </div>
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+    <link href="https://fonts.bunny.net/css?family=kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-Z/def5z5u2aR89OuzYcxmDJ0Bnd5V1cKqBEbvLOiUNWdg9PQeXVvXLI90SE4QOHGlfLqUnDNVAYyZi8UwUTmWQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/assets/css/main.css?v=1">
+    <style>
+      .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); }
+      .loading-overlay.hidden { display: none; }
+      .error-alert { max-width: 500px; margin: 20px auto; }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-black">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"><img src="/assets/img/logo.png" height="30" alt="StreamX Logo" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
+            <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://discord.gg/5AMPdpckjH">Discord</a></li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">English</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#" onclick="setLanguage('en');">English</a></li>
+                <li><a class="dropdown-item" href="#" onclick="setLanguage('de');">Deutsch</a></li>
+                <li><a class="dropdown-item" href="#" onclick="setLanguage('es');">Español</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="/auth/login" id="loginLink">Login</a></li>
+            <li class="nav-item"><button class="nav-link btn btn-link d-none" id="logoutButton">Logout</button></li>
+            <li class="nav-item">
+              <button id="themeToggle" class="nav-link btn btn-link" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+              </button>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
-    <button class="md:hidden fixed top-4 left-4 z-50 text-white" id="toggle-sidebar">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-        </svg>
-    </button>
-
-    <!-- Hero Section -->
-    <section class="bg-cover bg-center h-[70vh] flex items-center justify-center relative" style="background-image: url('https://source.unsplash.com/1600x900/?football-stadium'); background-attachment: fixed;">
-        <div class="absolute inset-0 bg-black bg-opacity-60 bg-texture"></div>
-        <div class="text-center z-10 animate-fade-in">
-            <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 font-bebas">PPV.WTF</h1>
-            <p class="text-xl md:text-2xl text-gray-200 mb-6 font-kanit">Stream Classic Sports in HD for Free</p>
-            <div class="space-x-4">
-                <a href="#live" class="inline-block bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition shadow-glow">Watch Now</a>
-                <a href="/vods" class="inline-block bg-transparent border-2 border-green-500 text-green-500 px-6 py-3 rounded-lg hover:bg-green-500 hover:text-white transition shadow-glow">Explore VODs</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Alerts -->
-    <div class="container mx-auto px-4 py-6">
-        <div class="bg-yellow-600 p-4 rounded-lg mb-4 flex justify-between items-center animate-slide-up">
-            <div>
-                <h4 class="font-bold font-kanit">PPV.LAND is now PPV.WTF</h4>
-                <p>Bookmark our mirrors at <a href="https://ppv.zone" class="underline text-white">ppv.zone</a>.</p>
-            </div>
-            <button class="text-white" onclick="this.parentElement.style.display='none'">✕</button>
-        </div>
-        <div class="bg-red-600 p-4 rounded-lg flex justify-between items-center animate-slide-up">
-            <p>Join our <a href="https://discord.gg/5AMPdpckjH" class="underline text-white">Discord</a> for updates!</p>
-            <button class="text-white" onclick="this.parentElement.style.display='none'">✕</button>
-        </div>
+    <div class="container-fluid text-center py-5 bg-dark hero-background">
+      <h1 class="display-4 fw-bold" data-aos="fade-up">Welcome to StreamX</h1>
+      <p class="lead" data-aos="fade-up" data-aos-delay="100">Stream Free PPV Boxing, UFC, Basketball, and More - Live & On-Demand!</p>
     </div>
-
-    <!-- Live Streams -->
-    <section id="live" class="container mx-auto px-4 py-6">
-        <h2 class="text-4xl font-bold mb-6 font-bebas">Live Matches</h2>
-        <div id="livecards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Mock stream card -->
-            <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg relative tilt-card">
-                <a href="/stream.html">
-                    <img src="https://i.imgur.com/tdkq4WT.jpeg" alt="Slovakia vs. Finland" class="w-full h-40 object-cover">
-                    <div class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm font-kanit animate-pulse">Live</div>
-                    <div class="p-4">
-                        <h5 class="text-lg font-bold font-kanit">Slovakia vs. Finland</h5>
-                        <p class="text-gray-400">IIHF 2025 • 123 viewers</p>
-                        <p class="text-gray-500 text-sm">Live Now</p>
-                    </div>
-                </a>
-            </div>
-            <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg relative tilt-card">
-                <a href="/stream.html">
-                    <img src="https://source.unsplash.com/400x225/?football" alt="Match" class="w-full h-40 object-cover">
-                    <div class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm font-kanit animate-pulse">Live</div>
-                    <div class="p-4">
-                        <h5 class="text-lg font-bold font-kanit">Team A vs. Team B</h5>
-                        <p class="text-gray-400">Football • 456 viewers</p>
-                        <p class="text-gray-500 text-sm">Live Now</p>
-                    </div>
-                </a>
-            </div>
+    <div id="loadingOverlay" class="loading-overlay">
+      <noscript>
+        <div class="alert alert-danger" role="alert">You must enable JavaScript for this site to work.</div>
+      </noscript>
+      <div class="alert alert-danger d-none" role="alert" id="loaderError"></div>
+      <div class="custom-loader" id="loaderSpinner"></div>
+    </div>
+    <div class="container container-fluid pt-2 text-white">
+      <div class="alert alert-warning alert-dismissible mt-4" role="alert">
+        <h4 class="alert-heading"><strong>Join Our Community!</strong></h4>
+        Connect with us on <a href="https://discord.gg/5AMPdpckjH" class="alert-link">Discord</a> for updates and support.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <div id="live" class="mt-4">
+        <div class="d-flex flex-nowrap flex-lg-row justify-content-lg-between align-content-center">
+          <h2 class="m-0 justify-content-start w-100 align-content-center">
+            <span style="animation-duration:1.2s;" class="spinner-grow text-danger" role="status"></span> Live Now
+          </h2>
+          <ul id="categorybuttons" class="nav justify-content-end"></ul>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 py-6 text-center bg-texture">
-        <p class="text-gray-400 font-kanit">© PPV.WTF 2025</p>
-        <div class="flex justify-center space-x-4 mt-2">
-            <a href="https://discord.gg/5AMPdpckjH" class="text-gray-400 hover:text-green-400 transition">
-                <img src="/assets/img/emote.svg" alt="Discord" class="h-6 inline">
-            </a>
-        </div>
-    </footer>
-
-    <script src="/assets/js/mock-data.js"></script>
-    <script>
-        // Sidebar toggle
-        const sidebar = document.getElementById('sidebar');
-        const toggleButton = document.getElementById('toggle-sidebar');
-        toggleButton.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-
-        // Close sidebar on outside click
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !toggleButton.contains(e.target)) {
-                sidebar.classList.add('-translate-x-full');
+        <div id="livecards" class="event-grid py-3"></div>
+      </div>
+      <div id="categories" class="mt-5"></div>
+      <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <p class="mb-2 mb-lg-0 text-body-secondary text-center text-lg-start">StreamX 2025</p>
+        <ul class="nav justify-content-center justify-content-lg-end mb-0">
+          <li class="nav-item"><a href="/api" class="nav-link px-2 text-body-secondary">API</a></li>
+          <li class="nav-item"><a href="https://discord.gg/5AMPdpckjH" class="nav-link px-2 text-body-secondary">Discord</a></li>
+          <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+          <li class="nav-item"><a href="/vip" class="nav-link px-2 text-body-secondary">Donate / VIP Access</a></li>
+          <li class="nav-item"><a href="/contact" class="nav-link px-2 text-body-secondary">Contact us</a></li>
+        </ul>
+      </footer>
+    </div>
+    <script defer>
+      function zeropad(num) {
+        return num > 9 ? num : '0' + num;
+      }
+      function countdown() {
+        const now = Math.floor(Date.now() / 1000);
+        const countdownElements = document.querySelectorAll('[data-start]');
+        countdownElements.forEach(function(element) {
+          const startTime = parseInt(element.getAttribute('data-start'), 10);
+          let timer = startTime - now;
+          if (timer > 0) {
+            let days = Math.floor(timer / 86400);
+            let weeks = Math.floor(days / 7);
+            let hours = Math.floor(timer / 3600);
+            let mins = Math.floor(timer / 60);
+            let secs = Math.floor(timer);
+            let displayText = '';
+            if (days >= 7) {
+              displayText = `Starting in ${weeks} week${weeks > 1 ? 's' : ''}`;
+            } else if (days >= 1) {
+              displayText = `Starting in ${days} day${days > 1 ? 's' : ''}`;
+            } else {
+              let hh = hours - days * 24;
+              let mm = mins - hours * 60;
+              let ss = secs - mins * 60;
+              displayText = `${zeropad(hh)}:${zeropad(mm)}:${zeropad(ss)}`;
             }
+            element.innerHTML = displayText;
+          } else {
+            element.innerHTML = `<a href="${element.getAttribute('data-uri')}" class="btn btn-danger btn-sm watch-button">Watch</a>`;
+            element.style.color = '#ff8280';
+          }
         });
-
-        // Tilt effect for cards
-        document.querySelectorAll('.tilt-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const tiltX = (y - centerY) / 10;
-                const tiltY = -(x - centerX) / 10;
-                card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.05)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-            });
+        setTimeout(countdown, 1000);
+      }
+      function loadContent(api) {
+        const errorContainer = document.getElementById("errorContainer");
+        errorContainer.className = 'd-none error-alert';
+        errorContainer.innerHTML = '';
+        try {
+          api.get("/streams").then(data => {
+            document.getElementById("categories").innerHTML = '';
+            document.getElementById("livecards").innerHTML = '';
+            if (!data || !data.success || !Array.isArray(data.streams)) {
+              errorContainer.className = 'alert alert-danger error-alert';
+              errorContainer.innerHTML = 'Failed to load streams. Invalid data received.';
+              return;
+            }
+            if (data.streams.length >= 1) {
+              const ulElement = document.getElementById('categorybuttons');
+              ulElement.innerHTML = '';
+              data.streams.forEach(categoryData => {
+                if (!categoryData.streams || categoryData.streams.length === 0) return;
+                let categoryName = categoryData.category;
+                let alwaysLive = categoryData.always_live;
+                let streams = categoryData.streams;
+                let categoryId = categoryData.id;
+                const liElement = document.createElement('li');
+                liElement.className = 'nav-item';
+                const aElement = document.createElement('a');
+                aElement.className = 'nav-link';
+                aElement.href = `#${categoryId}`;
+                aElement.textContent = categoryName;
+                liElement.appendChild(aElement);
+                ulElement.appendChild(liElement);
+                let categoryHtml = `
+                  <div id="${categoryId}-container" class="mt-5">
+                    <h2 class="m-0">${categoryName}${alwaysLive == 1 ? ' <span class="badge bg-success">24/7</span>' : ''}</h2>
+                    <div id="${categoryId}" class="event-grid py-3"></div>
+                  </div>`;
+                document.getElementById("categories").innerHTML += categoryHtml;
+                streams.forEach((stream, index) => {
+                  let startTime;
+                  try {
+                    startTime = new Date(stream.starts_at).getTime() / 1000;
+                    if (isNaN(startTime)) throw new Error('Invalid start time');
+                  } catch (e) {
+                    startTime = Math.floor(Date.now() / 1000);
+                  }
+                  let isLive = startTime <= Math.floor(Date.now() / 1000) || categoryData.always_live == 1 || stream.always_live == 1;
+                  let liveBadge = isLive ? '<span class="live-badge">LIVE</span>' : '';
+                  let poster = stream.poster && stream.poster !== '' ? stream.poster : 'https://via.placeholder.com/285x160?text=StreamX';
+                  let streamHtml = `
+                    <div class="event-card" data-aos="fade-up" data-aos-delay="${index * 100}">
+                      <a href="/live/${stream.uri_name}" class="card-link">
+                        <div class="card bg-black text-white">
+                          ${liveBadge}
+                          <img src="${poster}" class="card-img-top cover" width="285px" height="160px" alt="${stream.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/285x160?text=Image+Failed';">
+                          <div class="card-body">
+                            <h2 class="card-title">${stream.name}</h2>
+                            <p class="card-text">
+                              <span class="event-tag text-muted">${stream.tag}</span>
+                              <span class="float-end">${isLive 
+                                ? `<a href="/live/${stream.uri_name}" class="btn btn-danger btn-sm watch-button">Watch</a>` 
+                                : `<span class="countdown" data-start="${startTime}" data-uri="/live/${stream.uri_name}"></span>`}</span>
+                            </p>
+                          </div>
+                        </div>
+                      </a>
+                    </div>`;
+                  if (isLive) {
+                    document.getElementById("livecards").innerHTML += streamHtml;
+                  } else {
+                    document.getElementById(categoryId).innerHTML += streamHtml;
+                  }
+                });
+                if ($(`#${categoryId}`).is(':empty')) $(`#${categoryId}-container`).remove();
+              });
+            } else {
+              document.getElementById("livecards").innerHTML += '<p>No streams are live right now. Scroll down to see what\'s on later.</p>';
+            }
+            if ($(`#livecards`).is(':empty')) {
+              document.getElementById("livecards").innerHTML += '<p>No streams are live right now. Scroll down to see what\'s on later.</p>';
+            }
+          }).catch(error => {
+            errorContainer.className = 'alert alert-danger error-alert';
+            errorContainer.innerHTML = 'Failed to load streams due to a network issue. Please check your internet and try again.';
+          });
+        } catch (err) {
+          errorContainer.className = 'alert alert-danger error-alert';
+          errorContainer.innerHTML = 'Error loading streams. Please try again later.';
+        } finally {
+          $("#loaderSpinner").addClass('d-none');
+          $("#loadingOverlay").hide();
+        }
+      }
+      window.onload = function() {
+        var api = new Api(`${window.location.origin}/api`);
+        loadContent(api);
+        setInterval(() => loadContent(api), 60000);
+        countdown();
+        AOS.init();
+        document.addEventListener('click', function(event) {
+          const navbarCollapse = document.getElementById('navbarSupportedContent');
+          const navbarToggler = document.querySelector('.navbar-toggler');
+          const isNavbarOpen = navbarCollapse.classList.contains('show');
+          const clickedInsideNavbar = navbarCollapse.contains(event.target) || navbarToggler.contains(event.target);
+          if (isNavbarOpen && !clickedInsideNavbar) {
+            bootstrap.Collapse.getInstance(navbarCollapse).hide();
+          }
         });
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-bs-theme', currentTheme);
+        themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        themeToggle.addEventListener('click', () => {
+          const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+          htmlElement.setAttribute('data-bs-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        });
+      };
     </script>
-</body>
+    <script async src="/assets/js/api.js"></script>
+    <script async src="/assets/js/auth.js"></script>
+    <script defer src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer data-domain="your-streamx-site.vercel.app" src="https://p.vidembed.re/js/script.hash.outbound-links.pageview-props.tagged-events.js"></script>
+    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+  </body>
 </html>
